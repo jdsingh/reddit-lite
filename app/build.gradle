@@ -1,0 +1,111 @@
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-kapt"
+apply plugin: "kotlin-android-extensions"
+
+android {
+    compileSdkVersion buildConfig.compileSdk
+
+    defaultConfig {
+        applicationId "me.jagdeep.reddit"
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionCode buildConfig.version.code
+        versionName buildConfig.version.name
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        if (project.hasProperty('ANDROID_REDDIT_KEY_PASSWORD')) {
+            release {
+                keyAlias project.property('ANDROID_REDDIT_KEY_ALIAS')
+                keyPassword project.property('ANDROID_REDDIT_KEY_PASSWORD')
+                storeFile file(project.property('ANDROID_REDDIT_STORE_FILE'))
+                storePassword project.property('ANDROID_REDDIT_STORE_PASSWORD')
+            }
+        }
+        debug {
+            storeFile file("keystore/debug.keystore")
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            if (project.hasProperty('ANDROID_REDDIT_KEY_PASSWORD')) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+dependencies {
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:$mockitoKotlinVersion"
+
+    androidTestImplementation "com.android.support.test:runner:1.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Support libs
+    androidTestImplementation "com.android.support:support-compat:$supportLibVersion"
+    androidTestImplementation "com.android.support:animated-vector-drawable:$supportLibVersion"
+    androidTestImplementation "com.android.support:appcompat-v7:$supportLibVersion"
+    androidTestImplementation "com.android.support:design:$supportLibVersion"
+    androidTestImplementation "com.android.support:recyclerview-v7:$supportLibVersion"
+
+    // Support libs
+    implementation "com.android.support:support-compat:$supportLibVersion"
+    implementation "com.android.support:animated-vector-drawable:$supportLibVersion"
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support.constraint:constraint-layout:1.1.2"
+    implementation "com.android.support:design:$supportLibVersion"
+    implementation "com.android.support:recyclerview-v7:$supportLibVersion"
+    implementation "com.android.support:cardview-v7:$supportLibVersion"
+
+    // Jetpack
+    implementation "android.arch.lifecycle:runtime:$archVersion"
+    implementation "android.arch.lifecycle:extensions:$archVersion"
+    kapt "android.arch.lifecycle:compiler:$archVersion"
+    implementation 'androidx.core:core-ktx:0.3'
+
+    // RxJava2
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion"
+
+    // Dagger core
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // Dagger Android
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    // Timber
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
+
+    implementation project(":domain")
+    implementation project(":data")
+    implementation project(":remote")
+    implementation project(":presentation")
+    implementation project(":database")
+}
