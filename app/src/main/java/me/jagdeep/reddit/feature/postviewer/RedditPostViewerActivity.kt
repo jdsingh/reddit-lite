@@ -49,7 +49,13 @@ class RedditPostViewerActivity : AppCompatActivity() {
                     isFirstResource: Boolean
                 ): Boolean {
                     progressBar.visibility = View.GONE
-                    toast("Something went wrong")
+
+                    if (e != null) {
+                        toast(e.localizedMessage)
+                    } else {
+                        toast("Something went wrong")
+                    }
+
                     return true
                 }
             })
