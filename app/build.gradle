@@ -103,7 +103,11 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
+    // PowerMenu
     implementation "com.github.skydoves:powermenu:2.0.5"
+
+    // Loading Shimmer
+    implementation "com.facebook.shimmer:shimmer:0.1.0@aar"
 
     implementation project(":domain")
     implementation project(":data")

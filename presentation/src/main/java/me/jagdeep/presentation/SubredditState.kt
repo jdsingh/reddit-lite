@@ -4,9 +4,7 @@ import me.jagdeep.domain.reddit.model.RedditPost
 
 sealed class SubredditState {
 
-    object Uninitialized: SubredditState()
-
-    object Loading: SubredditState()
+    object Loading : SubredditState()
 
     class Error(val message: String) : SubredditState()
 

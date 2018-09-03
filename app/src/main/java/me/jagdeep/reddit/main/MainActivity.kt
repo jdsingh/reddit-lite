@@ -65,13 +65,23 @@ class MainActivity : DaggerAppCompatActivity() {
 
         viewModel.state().observe(this, Observer { state ->
             when (state) {
+                is SubredditState.Loading -> {
+                    listAdapter.submitList(emptyList())
+
+                    shimmer_view_container.startShimmerAnimation()
+                    shimmer_view_container.visibility = View.VISIBLE
+                }
                 is SubredditState.Error -> {
-                    toast(state.message)
-                        .setGravity(Gravity.CENTER, 0, 0)
+                    shimmer_view_container.stopShimmerAnimation()
+                    shimmer_view_container.visibility = View.GONE
+
+                    toast(state.message).setGravity(Gravity.CENTER, 0, 0)
                 }
                 is SubredditState.Success -> {
-                    posts.visibility = View.VISIBLE
                     listAdapter.submitList(state.result)
+
+                    shimmer_view_container.stopShimmerAnimation()
+                    shimmer_view_container.visibility = View.GONE
                 }
             }
         })
@@ -94,9 +104,8 @@ class MainActivity : DaggerAppCompatActivity() {
 
     }
 
-    private val menuItemClickListener = OnMenuItemClickListener<PowerMenuItem> { position, item ->
+    private val menuItemClickListener = OnMenuItemClickListener<PowerMenuItem> { _, item ->
         viewModel.showSubreddit(item.title)
-        // powerMenu.selectedPosition = position
         powerMenu.dismiss()
     }
 
