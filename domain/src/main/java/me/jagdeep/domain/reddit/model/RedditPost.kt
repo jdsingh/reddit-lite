@@ -1,10 +1,14 @@
 package me.jagdeep.domain.reddit.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.android.parcel.Parcelize
 import java.text.DecimalFormat
 
 /**
  * RedditPost domain entity.
  */
+@Parcelize
 data class RedditPost(
     val id: String,
     val subreddit: String,
@@ -20,9 +24,12 @@ data class RedditPost(
     val source_image_url: String,
     val source_image_width: Int,
     val source_image_height: Int
-) {
+) : Parcelable {
 
+    @IgnoredOnParcel
     val upString: String = ups.toSmallNumber()
+
+    @IgnoredOnParcel
     val commentString: String = number_of_comments.toSmallNumber()
 
     private fun Int.toSmallNumber(): String {
