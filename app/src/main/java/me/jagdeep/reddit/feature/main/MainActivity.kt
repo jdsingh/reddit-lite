@@ -15,7 +15,6 @@ import com.skydoves.powermenu.PowerMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import me.jagdeep.domain.reddit.model.RedditPost
 import me.jagdeep.presentation.SubredditState
 import me.jagdeep.presentation.SubredditViewModel
 import me.jagdeep.reddit.R
@@ -31,7 +30,6 @@ class MainActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    @Inject
     lateinit var openRedditPostHandler: OpenRedditPostHandler
 
     private lateinit var viewModel: SubredditViewModel
@@ -41,6 +39,8 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        openRedditPostHandler = OpenRedditPostHandler(this)
 
         viewModel = activityViewModel(viewModelFactory)
 
@@ -88,20 +88,12 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupListView() {
-        listAdapter.clickListener = redditPostItemListener
+        listAdapter.clickListener = openRedditPostHandler
         posts.apply {
             adapter = listAdapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
-    }
-
-    private val redditPostItemListener = object : RedditPostItemListener {
-
-        override fun onRedditPostClicked(redditPost: RedditPost) {
-            openRedditPostHandler(redditPost)
-        }
-
     }
 
     private val menuItemClickListener = OnMenuItemClickListener<PowerMenuItem> { _, item ->

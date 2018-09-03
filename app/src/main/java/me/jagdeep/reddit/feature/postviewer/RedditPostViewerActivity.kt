@@ -16,10 +16,6 @@ import me.jagdeep.domain.reddit.model.RedditPost
 import me.jagdeep.reddit.R
 import me.jagdeep.reddit.glide.GlideApp
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 class RedditPostViewerActivity : AppCompatActivity() {
 
     private val redditPost: RedditPost by lazy {
@@ -70,4 +66,5 @@ class RedditPostViewerActivity : AppCompatActivity() {
                 putExtra(EXTRA_REDDIT_POST, redditPost)
             }
     }
+
 }

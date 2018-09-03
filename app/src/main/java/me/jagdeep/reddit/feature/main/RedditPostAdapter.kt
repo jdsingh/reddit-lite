@@ -24,7 +24,7 @@ import javax.inject.Inject
 class RedditPostAdapter @Inject constructor() :
     ListAdapter<RedditPost, RedditPostAdapter.RedditPostViewHolder>(RedditPostDiffCallback()) {
 
-    var clickListener: RedditPostItemListener? = null
+    var clickListener: OpenRedditPostHandler? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RedditPostViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -49,9 +49,9 @@ class RedditPostAdapter @Inject constructor() :
         private val thumbnail = itemView.findViewById<ImageView>(R.id.thumbnail)
 
         @SuppressLint("SetTextI18n")
-        fun bind(item: RedditPost, clickListener: RedditPostItemListener?) {
+        fun bind(item: RedditPost, clickListener: OpenRedditPostHandler?) {
             clickListener?.run {
-                itemView.setOnClickListener { onRedditPostClicked(item) }
+                itemView.setOnClickListener { clickListener(thumbnail, item) }
             }
 
             val time = DateUtils.getRelativeTimeSpanString(

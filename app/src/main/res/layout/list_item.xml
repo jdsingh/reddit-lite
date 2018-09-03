@@ -49,6 +49,7 @@
         android:layout_marginTop="16dp"
         android:contentDescription="@null"
         android:scaleType="fitXY"
+        android:transitionName="post_image"
         android:src="@drawable/reddit_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

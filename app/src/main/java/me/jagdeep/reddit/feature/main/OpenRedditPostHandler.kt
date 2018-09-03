@@ -1,17 +1,22 @@
 package me.jagdeep.reddit.feature.main
 
+import android.app.Activity
 import android.content.Context
+import android.support.v4.app.ActivityOptionsCompat
+import android.widget.ImageView
 import me.jagdeep.domain.reddit.model.RedditPost
 import me.jagdeep.reddit.feature.postviewer.RedditPostViewerActivity
-import javax.inject.Inject
 
-class OpenRedditPostHandler @Inject constructor(
-    private val context: Context
-) : ItemHandler {
+class OpenRedditPostHandler(private val context: Context) {
 
-    override operator fun invoke(redditPost: RedditPost) {
+    operator fun invoke(thumbnail: ImageView, redditPost: RedditPost) {
         val intent = RedditPostViewerActivity.intent(context, redditPost)
-        context.startActivity(intent)
+
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            context as Activity, thumbnail, thumbnail.transitionName
+        )
+
+        context.startActivity(intent, options.toBundle())
     }
 
 }
