@@ -1,4 +1,4 @@
-package me.jagdeep.reddit.main
+package me.jagdeep.reddit.feature.main
 
 import android.annotation.SuppressLint
 import android.support.v7.recyclerview.extensions.ListAdapter

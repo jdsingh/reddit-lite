@@ -1,4 +1,4 @@
-package me.jagdeep.reddit.main
+package me.jagdeep.reddit.feature.main
 
 import me.jagdeep.domain.reddit.model.RedditPost
 

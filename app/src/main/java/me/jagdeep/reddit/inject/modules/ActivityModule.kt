@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import me.jagdeep.domain.executor.PostExecutionThread
 import me.jagdeep.reddit.base.UiThread
-import me.jagdeep.reddit.main.MainActivity
+import me.jagdeep.reddit.feature.main.MainActivity
 
 @Module
 abstract class ActivityModule {
