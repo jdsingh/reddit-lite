@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
@@ -109,7 +110,7 @@ class MainActivity : DaggerAppCompatActivity() {
             .setMenuShadow(10f)
             .setSelectedTextColor(Color.WHITE)
             .setMenuColor(Color.WHITE)
-            .setSelectedMenuColor(resources.getColor(R.color.primary))
+            .setSelectedMenuColor(ResourcesCompat.getColor(resources, R.color.primary, null))
             .setOnMenuItemClickListener(menuItemClickListener)
             .build()
 

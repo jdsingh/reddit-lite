@@ -26,7 +26,7 @@ class RedditPostViewerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reddit_post_viewer)
 
-        progressBar.visibility = View.VISIBLE
+        showLoading(true)
 
         GlideApp.with(image_view)
             .load(redditPost.source_image_url)
@@ -38,7 +38,7 @@ class RedditPostViewerActivity : AppCompatActivity() {
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    progressBar.visibility = View.GONE
+                    showLoading(false)
                     return false
                 }
 
@@ -48,7 +48,8 @@ class RedditPostViewerActivity : AppCompatActivity() {
                     target: Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    progressBar.visibility = View.GONE
+                    showLoading(false)
+                    showError()
 
                     if (e != null) {
                         toast(e.localizedMessage)
@@ -61,6 +62,18 @@ class RedditPostViewerActivity : AppCompatActivity() {
             })
             .fitCenter()
             .into(image_view)
+    }
+
+    private fun showLoading(show: Boolean) {
+        if (show) {
+            progress_view.visibility = View.VISIBLE
+        } else {
+            progress_view.visibility = View.GONE
+        }
+    }
+
+    private fun showError() {
+        error_view.visibility = View.VISIBLE
     }
 
     companion object {

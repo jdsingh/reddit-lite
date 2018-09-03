@@ -7,16 +7,33 @@
     android:orientation="vertical"
     tools:context=".feature.postviewer.RedditPostViewerActivity">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progress_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="material_wave_loading.json"
+        android:visibility="gone"
+        app:lottie_loop="true"
+        app:lottie_scale=".5" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/error_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="cloud_disconnection.json"
+        android:visibility="gone"
+        app:lottie_scale="3.5"
+        app:lottie_loop="true" />
 
     <ImageView
         android:id="@+id/image_view"
