@@ -18,12 +18,4 @@ To build and install the apk
 
 `./gradlew installDebug`
 
-To run unit tests:
-
-`./gradlew test`
-
-#### TODO
-
-- Ability to Clear cache.
-- Check cache validity before using.
 

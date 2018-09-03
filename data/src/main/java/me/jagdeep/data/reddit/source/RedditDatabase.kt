@@ -13,10 +13,10 @@ interface RedditDatabase {
 
     fun getSubreddit(subreddit: String): Single<List<RedditPostEntity>>
 
-    fun isSubredditCached(subreddit: String): Single<Boolean>
+    fun isSubredditCacheValid(subreddit: String): Single<Boolean>
 
     fun clearSubredditCached(subreddit: String): Completable
 
-    fun cacheSubreddit(subreddit: String, posts: List<RedditPostEntity>): Completable
+    fun cacheSubreddit(subreddit: String, posts: List<RedditPostEntity>)
 
 }

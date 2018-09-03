@@ -18,27 +18,14 @@ class RedditDataRepository @Inject constructor(
 ) : RedditRepository {
 
     override fun getSubreddit(subreddit: String): Single<List<RedditPost>> {
-        return remote.getSubreddit(subreddit)
-            .map { entities ->
-                entities.map { entity ->
-                    mapper.mapFromEntity(entity)
-                }
-            }
-
-        /*
-        return database.isSubredditCached(subreddit)
-            .flatMap { isCached ->
-                if (isCached) {
+        return database.isSubredditCacheValid(subreddit)
+            .flatMap { isCacheValid ->
+                if (isCacheValid) {
                     database.getSubreddit(subreddit)
                 } else {
                     remote.getSubreddit(subreddit)
                         .doAfterSuccess { posts ->
                             database.cacheSubreddit(subreddit, posts)
-                                .subscribe({
-                                    // subreddit cached
-                                }, {
-                                    // cache failed
-                                })
                         }
                 }
             }
@@ -47,7 +34,6 @@ class RedditDataRepository @Inject constructor(
                     mapper.mapFromEntity(entity)
                 }
             }
-            */
     }
 
 }
