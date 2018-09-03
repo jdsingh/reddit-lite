@@ -12,7 +12,7 @@ open class RedditEntityMapper @Inject constructor() :
     EntityMapper<SubRedditPost, RedditPostEntity> {
 
     override fun mapToEntity(type: SubRedditPost): RedditPostEntity {
-        val preview = type.data.preview.images.first()
+        val preview = type.data.preview!!.images.first()
 
         return RedditPostEntity(
             id = type.data.id,

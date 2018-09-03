@@ -13,15 +13,19 @@ class SubredditViewModel @Inject constructor(
     private val getSubredditUseCase: GetSubredditUseCase
 ) : ViewModel() {
 
+    private var currentSubreddit = MutableLiveData<String>()
     private val subredditState = MutableLiveData<SubredditState>()
 
     init {
-        subredditState.value = SubredditState.Uninitialized
+        showSubreddit("all")
     }
 
     fun state(): LiveData<SubredditState> = subredditState
 
+    fun currentSubreddit(): LiveData<String> = currentSubreddit
+
     fun showSubreddit(subreddit: String) {
+        currentSubreddit.value = subreddit
         getSubredditUseCase.execute(GetSubredditUseCase.Companion.Params(subreddit))
             .doOnSubscribe {
                 subredditState.value = SubredditState.Loading

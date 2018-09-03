@@ -15,13 +15,13 @@ class RedditRemoteImpl @Inject constructor(
 ) : RedditRemote {
 
     override fun getSubreddit(subreddit: String): Single<List<RedditPostEntity>> {
-        return redditApiService.getSubreddit(subreddit, 100)
+        return redditApiService.getSubreddit(subreddit, 50)
             .map { response ->
                 response.data.children
                     // remove videos
                     .filter { !it.data.is_video }
                     // remove posts which has preview disabled
-                    .filter { it.data.preview.enabled }
+                    .filter { it.data.preview?.enabled == true }
                     .map { mapper.mapToEntity(it) }
             }
     }

@@ -32,7 +32,7 @@ data class SubRedditPostData(
     val thumbnail: String,
     val thumbnail_height: Int,
     val thumbnail_width: Int,
-    val preview: SubRedditPreview
+    val preview: SubRedditPreview?
 )
 
 data class SubRedditPreview(
