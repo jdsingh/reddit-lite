@@ -18,13 +18,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import me.jagdeep.presentation.SubredditState
 import me.jagdeep.presentation.SubredditViewModel
 import me.jagdeep.reddit.R
-import me.jagdeep.reddit.base.activityViewModel
 import me.jagdeep.reddit.inject.ViewModelFactory
+import me.jagdeep.reddit.util.activityViewModel
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
 
-    @Inject
     lateinit var redditPostController: RedditPostController
 
     @Inject
@@ -41,12 +40,12 @@ class MainActivity : DaggerAppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         openRedditPostHandler = OpenRedditPostHandler(this)
-        redditPostController.clickListener(openRedditPostHandler)
+        redditPostController = RedditPostController(openRedditPostHandler)
 
         viewModel = activityViewModel(viewModelFactory)
 
         setupListView()
-        observeState()
+        observeViewState()
         setupPowerMenu()
     }
 
@@ -56,7 +55,7 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun observeState() {
+    private fun observeViewState() {
         viewModel.currentSubreddit().observe(this, Observer { title ->
             val item = powerMenu.itemList.find { it.title == title }
             val position = powerMenu.itemList.indexOf(item)
@@ -67,7 +66,7 @@ class MainActivity : DaggerAppCompatActivity() {
         viewModel.state().observe(this, Observer { state ->
             when (state) {
                 is SubredditState.Loading -> {
-                    redditPostController.submitList(emptyList())
+                    redditPostController.setData(emptyList())
 
                     shimmer_view_container.startShimmerAnimation()
                     shimmer_view_container.visibility = View.VISIBLE
@@ -79,7 +78,7 @@ class MainActivity : DaggerAppCompatActivity() {
                     toast(state.message).setGravity(Gravity.CENTER, 0, 0)
                 }
                 is SubredditState.Success -> {
-                    redditPostController.submitList(state.result)
+                    redditPostController.setData(state.result)
 
                     shimmer_view_container.stopShimmerAnimation()
                     shimmer_view_container.visibility = View.GONE

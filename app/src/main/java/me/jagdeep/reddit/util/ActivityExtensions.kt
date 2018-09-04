@@ -1,4 +1,4 @@
-package me.jagdeep.reddit.base
+package me.jagdeep.reddit.util
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders

@@ -1,31 +1,19 @@
 package me.jagdeep.reddit.feature.main
 
-import com.airbnb.epoxy.EpoxyController
+import com.airbnb.epoxy.TypedEpoxyController
 import me.jagdeep.domain.reddit.model.RedditPost
-import javax.inject.Inject
 
-class RedditPostController @Inject constructor() : EpoxyController() {
+class RedditPostController(
+    private val clickListener: OpenRedditPostHandler
+) : TypedEpoxyController<List<RedditPost>>() {
 
-    private var posts = emptyList<RedditPost>()
-
-    private var clickListener: OpenRedditPostHandler? = null
-
-    fun clickListener(openRedditPostHandler: OpenRedditPostHandler) {
-        this.clickListener = openRedditPostHandler
-    }
-
-    fun submitList(list: List<RedditPost>) {
-        posts = list
-        requestModelBuild()
-    }
-
-    override fun buildModels() {
-        for (post in posts) {
-            RedditPostModel_()
-                .id(post.id)
-                .redditPost(post)
-                .clickListener(clickListener)
-                .addTo(this)
+    override fun buildModels(data: List<RedditPost>) {
+        for (post in data) {
+            redditPost {
+                id(post.id)
+                redditPost(post)
+                clickListener(clickListener)
+            }
         }
     }
 
