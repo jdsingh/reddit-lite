@@ -11,7 +11,6 @@ import android.view.Gravity
 import android.view.View
 import androidx.core.widget.toast
 import com.skydoves.powermenu.MenuAnimation
-import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.android.support.DaggerAppCompatActivity
@@ -26,7 +25,7 @@ import javax.inject.Inject
 class MainActivity : DaggerAppCompatActivity() {
 
     @Inject
-    lateinit var listAdapter: RedditPostAdapter
+    lateinit var redditPostController: RedditPostController
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -42,6 +41,7 @@ class MainActivity : DaggerAppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         openRedditPostHandler = OpenRedditPostHandler(this)
+        redditPostController.clickListener(openRedditPostHandler)
 
         viewModel = activityViewModel(viewModelFactory)
 
@@ -67,7 +67,7 @@ class MainActivity : DaggerAppCompatActivity() {
         viewModel.state().observe(this, Observer { state ->
             when (state) {
                 is SubredditState.Loading -> {
-                    listAdapter.submitList(emptyList())
+                    redditPostController.submitList(emptyList())
 
                     shimmer_view_container.startShimmerAnimation()
                     shimmer_view_container.visibility = View.VISIBLE
@@ -79,7 +79,7 @@ class MainActivity : DaggerAppCompatActivity() {
                     toast(state.message).setGravity(Gravity.CENTER, 0, 0)
                 }
                 is SubredditState.Success -> {
-                    listAdapter.submitList(state.result)
+                    redditPostController.submitList(state.result)
 
                     shimmer_view_container.stopShimmerAnimation()
                     shimmer_view_container.visibility = View.GONE
@@ -89,17 +89,11 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupListView() {
-        listAdapter.clickListener = openRedditPostHandler
         posts.apply {
-            adapter = listAdapter
+            adapter = redditPostController.adapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
-    }
-
-    private val menuItemClickListener = OnMenuItemClickListener<PowerMenuItem> { _, item ->
-        viewModel.showSubreddit(item.title)
-        powerMenu.dismiss()
     }
 
     private fun setupPowerMenu() {
@@ -111,7 +105,10 @@ class MainActivity : DaggerAppCompatActivity() {
             .setSelectedTextColor(Color.WHITE)
             .setMenuColor(Color.WHITE)
             .setSelectedMenuColor(ResourcesCompat.getColor(resources, R.color.primary, null))
-            .setOnMenuItemClickListener(menuItemClickListener)
+            .setOnMenuItemClickListener { _, item ->
+                viewModel.showSubreddit(item.title)
+                powerMenu.dismiss()
+            }
             .build()
 
         menu.setOnClickListener {
