@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
+import com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash
 import com.airbnb.epoxy.EpoxyHolder
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
@@ -15,14 +16,13 @@ import me.jagdeep.reddit.glide.GlideApp
 import me.jagdeep.reddit.glide.roundedCorners
 import me.jagdeep.reddit.glide.toPx
 
-
 @EpoxyModelClass(layout = R.layout.list_item)
 abstract class RedditPostModel : EpoxyModelWithHolder<RedditPostModel.Holder>() {
 
     @EpoxyAttribute
     lateinit var redditPost: RedditPost
 
-    @EpoxyAttribute
+    @EpoxyAttribute(DoNotHash)
     var clickListener: View.OnClickListener? = null
 
     @SuppressLint("SetTextI18n")
