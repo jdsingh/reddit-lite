@@ -65,7 +65,7 @@ class SubredditViewModelTest {
 
     @Test
     fun getSubreddit_showsErrorState() {
-        // Given that the repository returns with success
+        // Given that the repository returns with error
         whenever(redditRepository.getSubreddit(any()))
             .thenReturn(Single.error(Throwable("error")))
 
@@ -79,14 +79,14 @@ class SubredditViewModelTest {
 
         val expectedState = SubredditState.Error("Something is not right!")
 
-        // Then the uiState should show movie posts
+        // Then the uiState should show error message
         val uiState = LiveDataTestUtil.getValue(viewModel.subredditState)
         assertEquals(expectedState, uiState)
     }
 
     @Test
     fun getSubreddit_showsErrorStateWhenNoInternet() {
-        // Given that the repository returns with success
+        // Given that the repository returns with IOException
         whenever(redditRepository.getSubreddit(any()))
             .thenReturn(Single.error(IOException("error")))
 
@@ -100,7 +100,7 @@ class SubredditViewModelTest {
 
         val expectedState = SubredditState.Error("You're not connected to Internet!")
 
-        // Then the uiState should show movie posts
+        // Then the uiState should show error message
         val uiState = LiveDataTestUtil.getValue(viewModel.subredditState)
         assertEquals(expectedState, uiState)
     }
