@@ -3,11 +3,11 @@ apply plugin: "kotlin-android"
 apply plugin: "kotlin-kapt"
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
+    compileSdkVersion buildConfig.compileSdk
 
     defaultConfig {
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.targetSdkVersion
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
