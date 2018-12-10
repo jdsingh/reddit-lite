@@ -6,8 +6,8 @@ sealed class SubredditState {
 
     object Loading : SubredditState()
 
-    class Error(val message: String) : SubredditState()
+    data class Error(val message: String) : SubredditState()
 
-    class Success(val result: List<RedditPost>) : SubredditState()
+    data class Success(val result: List<RedditPost>) : SubredditState()
 
 }

@@ -5,10 +5,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import me.jagdeep.data.reddit.source.RedditRemote
-import me.jagdeep.remote.reddit.RedditApiService
-import me.jagdeep.remote.ApiServiceFactory
-import me.jagdeep.remote.reddit.RedditRemoteImpl
 import me.jagdeep.reddit.BuildConfig
+import me.jagdeep.remote.ApiServiceFactory
+import me.jagdeep.remote.reddit.RedditApiService
+import me.jagdeep.remote.reddit.RedditRemoteImpl
 import java.io.File
 
 @Module

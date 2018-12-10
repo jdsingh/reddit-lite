@@ -56,14 +56,14 @@ class MainActivity : DaggerAppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun observeViewState() {
-        viewModel.currentSubreddit().observe(this, Observer { title ->
+        viewModel.currentSubreddit.observe(this, Observer { title ->
             val item = powerMenu.itemList.find { it.title == title }
             val position = powerMenu.itemList.indexOf(item)
             powerMenu.selectedPosition = position
             subreddit.text = "r/$title"
         })
 
-        viewModel.state().observe(this, Observer { state ->
+        viewModel.subredditState.observe(this, Observer { state ->
             when (state) {
                 is SubredditState.Loading -> {
                     redditPostController.setData(emptyList())
